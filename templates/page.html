@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="@@DESCRIPTION@@">
+  <meta name="theme-color" content="#0b0026">
+  <title>@@TITLE@@ · Антон Конушин</title>
+  <link rel="icon" href="@@PREFIX@@assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="@@PREFIX@@assets/style.css">
+  <script defer src="@@PREFIX@@assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="@@PREFIX@@index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap @@LAYOUT@@">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        @@BOOKNAV@@
+        <div class="nav-footer">Обновлено @@UPDATED@@<br><span>Редакция @@REVISION@@</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">@@EYEBROW@@</div>
+      <h1>@@HEADING@@</h1>
+      <p class="lead">@@DESCRIPTION@@</p>
+      @@PAGEMETA@@
+      @@BODY@@
+      @@PREVNEXT@@
+      <footer class="page-footer">Рабочая версия исследования · @@UPDATED@@ · @@REVISION@@<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+    @@LOCALTOC@@
+  </div>
+</body>
+</html>

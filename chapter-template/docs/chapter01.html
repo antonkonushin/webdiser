@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<title>Глава 1. Постановка задачи</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --navy:#0B0026; --blue:#1D00C3; --violet:#6A3FEA; --orange:#E97132;
+  --ink:#1A1A22; --muted:#6B6B76; --line:#E4E5EE; --bg:#FFFFFF; --soft:#F7F7FA;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.72 "Georgia","Charter","PT Serif",serif;
+  -webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,760px);gap:56px;
+  justify-content:center;padding:0 24px 120px}
+nav{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;
+  padding:40px 0 40px;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+nav .home{display:inline-block;color:var(--muted);text-decoration:none;margin-bottom:18px}
+nav .home:hover{color:var(--blue)}
+nav a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+nav a:hover{color:var(--blue)}
+nav a.h2{font-weight:600;color:var(--navy);margin-top:12px}
+nav a.h3{padding-left:14px;font-size:13px}
+main{padding-top:40px;min-width:0}
+h1{font:600 34px/1.25 system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--navy);margin:0 0 8px}
+h2{font:600 25px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--navy);margin:56px 0 16px;padding-top:14px;border-top:2px solid var(--line)}
+h3{font:600 19px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--blue);margin:34px 0 12px}
+p{margin:0 0 16px}
+a{color:var(--blue)}
+main a[href*="#sec-"]{text-decoration:none;white-space:nowrap}
+a.gloss{text-decoration:underline dotted;text-underline-offset:3px;position:relative}
+a.sym{color:inherit;text-decoration:none;border-bottom:1px dashed var(--muted);position:relative}
+a.sym:hover{border-bottom-color:var(--blue)}
+a.sym:hover::after,a.sym:focus-visible::after{content:attr(data-tip);position:absolute;left:0;
+  top:calc(100% + 6px);z-index:30;width:max-content;max-width:min(340px,78vw);padding:8px 11px;
+  background:var(--navy);color:#fff;border-radius:6px;box-shadow:0 4px 14px rgba(11,0,38,.22);
+  font:13.5px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;white-space:normal;
+  text-decoration:none;pointer-events:none}
+a.gloss:hover::after,a.gloss:focus-visible::after{content:attr(data-tip);position:absolute;left:0;
+  top:calc(100% + 6px);z-index:30;width:max-content;max-width:min(340px,78vw);padding:8px 11px;
+  background:var(--navy);color:#fff;border-radius:6px;box-shadow:0 4px 14px rgba(11,0,38,.22);
+  font:13.5px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;white-space:normal;
+  text-decoration:none;pointer-events:none}
+main a[href*="#sec-"]:hover{text-decoration:underline}
+strong{font-weight:600;color:var(--navy)}
+code{font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:var(--soft);padding:1px 5px;border-radius:4px}
+pre{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:12px 16px;
+  overflow-x:auto;margin:0 0 18px}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.55}
+blockquote{margin:22px 0;padding:14px 20px;background:var(--soft);
+  border-left:3px solid var(--violet);border-radius:0 6px 6px 0}
+blockquote p:last-child{margin-bottom:0}
+ul,ol{margin:0 0 16px;padding-left:24px}
+li{margin:0 0 7px}
+figure{margin:30px 0}
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:18px 0}
+.scrollx table{margin:0}
+mjx-container{max-width:100%}
+mjx-container:not([display]){display:inline-block;vertical-align:baseline;overflow-x:auto;overflow-y:hidden}
+mjx-container[display]{display:block;overflow-x:auto;overflow-y:hidden}
+a.zoom{display:block;cursor:zoom-in}
+p,li,td,th,figcaption{overflow-wrap:break-word}
+code,a{word-break:break-word}
+img{max-width:100%}
+pre{overflow-x:auto}
+figure img{display:block;width:100%;height:auto;border-radius:6px}
+figcaption{margin-top:10px;color:var(--muted);
+  font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+table{width:100%;border-collapse:collapse;margin:22px 0;
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--navy);font-weight:600;border-bottom:2px solid var(--line)}
+tr:hover td{background:var(--soft)}
+hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.lead{color:var(--muted);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;
+  margin-bottom:32px}
+.course{color:var(--muted);font:13px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+@media (max-width:1080px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:0}
+  nav{position:static;max-height:none;border-bottom:1px solid var(--line);
+    padding:24px 0;margin-bottom:8px}
+  nav a.h3{display:none}
+}
+@media print{
+  nav{display:none} .wrap{display:block} main{padding:0}
+  h2{break-before:page} figure{break-inside:avoid}
+  main a[href*="#sec-"]{color:inherit}
+}
+
+@media print {
+ @page { size: A4; margin: 20mm; }
+ body { font-size: 12pt; }
+ .wrap { padding: 0; }
+ h2, h3 { break-after: avoid; }
+ pre { white-space: pre-wrap; }
+}
+</style>
+
+<script>
+window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']],
+  processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+<div class="wrap">
+<nav><a class="home" href="index.html">← к оглавлению</a><a class="h2" href="#sec-1-1">1.1. Мотивация исследования</a>
+<a class="h3" href="#sec-1-1-1">1.1.1. Предпосылки</a>
+<a class="h2" href="#sec-1-2">1.2. Математическая постановка</a>
+<a class="h3" href="#sec-1-2-1">1.2.1. Иллюстрация</a>
+<a class="h2" href="#sec-1-3">1.3. Структура работы</a>
+<a class="h2" href="#sec-6">Обозначения</a></nav>
+<main>
+<div class="course">Имя Фамилия · Организация · 2026</div>
+<h1>Глава 1. Постановка задачи</h1>
+
+<p>Это демонстрационная глава. Она показывает оформление текста, формул, рисунков,
+таблиц, примечаний и ссылок. Содержание заменяется вашим исследованием.</p>
+<h2 id="sec-1-1">1.1. Мотивация исследования</h2>
+<p>Начните с проблемы: что известно, чего не хватает и почему это важно.
+<strong>Цель исследования</strong> формулируется отдельно от перечня выполненных действий.</p>
+<blockquote>
+<p><strong>Примечание.</strong> В таком блоке удобно пояснять ограничения, давать определение
+или выделять важное следствие. Цвета и шрифты меняются в <code>style.css</code>.</p>
+</blockquote>
+<h3 id="sec-1-1-1">1.1.1. Предпосылки</h3>
+<ol>
+<li>Опишите исходные данные.</li>
+<li>Укажите принятые предположения.</li>
+<li>Объясните, как будет оцениваться результат.</li>
+</ol>
+<p>Метод описан в <a href="chapter02.html#sec-2-1">§ 2.1</a>, а пример сравнения — в <a href="chapter02.html#sec-2-2">§ 2.2</a>.</p>
+<h2 id="sec-1-2">1.2. Математическая постановка</h2>
+<p>Пусть <a class="sym" href="#sec-6" data-tip="Измерение с номером i">$x_i$</a> — измерение с номером $i$, <a class="sym" href="#sec-6" data-tip="Число измерений">$n$</a> — число измерений, а <a class="sym" href="#sec-6" data-tip="Среднее арифметическое измерений">$\mu$</a> — их среднее.
+Тогда</p>
+<p>$$
+\mu = \frac{1}{n}\sum_{i=1}^{n} x_i.
+$$</p>
+<p>Формулы записываются в синтаксисе TeX. Внутри строки используются одиночные
+знаки доллара, для отдельной формулы — двойные. Символы нужно определять
+перед использованием, даже если они перечислены в справочной таблице в конце.</p>
+<h3 id="sec-1-2-1">1.2.1. Иллюстрация</h3>
+<figure><a class="zoom" href="img/chapter01_example.png?v=14c67af5" target="_blank" rel="noopener"><img alt="Пример зависимости отклика от номера измерения" src="img/chapter01_example.png?v=14c67af5" /></a><figcaption>Рис. 1.1. Демонстрационный рисунок: условный отклик. Данные вымышлены и показывают только оформление.</figcaption></figure>
+<p>Рисунок открывается крупнее по нажатию. Номер и содержательную подпись задаёт автор.</p>
+<h2 id="sec-1-3">1.3. Структура работы</h2>
+<div class="scrollx"><table>
+<thead>
+<tr>
+<th>Часть</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Постановка задачи</td>
+<td>Цель, ограничения и исходные данные</td>
+</tr>
+<tr>
+<td>Метод</td>
+<td>Предлагаемое решение и его обоснование</td>
+</tr>
+<tr>
+<td>Эксперимент</td>
+<td>Условия сравнения, результаты и анализ</td>
+</tr>
+</tbody>
+</table></div>
+<p>Пример обычной ссылки на источник: <a href="https://example.org">название источника</a>.
+В реальной работе замените её полной библиографической записью и адресом источника.</p>
+<h2 id="sec-6">Обозначения</h2>
+<div class="scrollx"><table>
+<thead>
+<tr>
+<th>Обозначение</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$x_i$</td>
+<td>Измерение с номером i</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>Число измерений</td>
+</tr>
+<tr>
+<td>$\mu$</td>
+<td>Среднее арифметическое измерений</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+</div>

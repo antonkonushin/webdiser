@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="От наблюдаемой формы к параметрам, конструктивной структуре и исполняемой CAD-программе.">
+  <meta name="theme-color" content="#0b0026">
+  <title>Глава 4. Структурированная реконструкция сцен и объектов · Антон Конушин</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap ">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        <a href="../index.html">Об этой работе</a>
+<a href="../introduction.html"><span class="nav-num">·</span><span>Введение</span></a>
+<a href="../chapters/foundations.html"><span class="nav-num">01</span><span>Постановка задач и обзор</span></a>
+<a href="../chapters/camera-geometry.html"><span class="nav-num">02</span><span>Позы камер и разреженная реконструкция</span></a>
+<a href="../chapters/scene-understanding.html"><span class="nav-num">03</span><span>Семантическое понимание сцен</span></a>
+<a href="../chapters/structured-reconstruction.html" aria-current="page"><span class="nav-num">04</span><span>Структурированная реконструкция сцен и объектов</span></a>
+<a href="../chapters/rendering.html"><span class="nav-num">05</span><span>Фотореалистичная визуализация</span></a>
+<a href="../chapters/system-evaluation.html"><span class="nav-num">06</span><span>Программная система и сквозная оценка</span></a>
+<div class="nav-separator"></div>
+<a href="../conclusion.html"><span class="nav-num">·</span><span>Заключение</span></a>
+<a href="../appendices.html"><span class="nav-num">·</span><span>Приложения</span></a>
+<div class="nav-separator"></div>
+<a href="../abstract-plan.html"><span class="nav-num">·</span><span>План автореферата</span></a>
+<a href="../bibliography.html"><span class="nav-num">·</span><span>Библиография</span></a>
+        <div class="nav-footer">Обновлено 2026-10-15<br><span>Редакция 1ee10d8f4d</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">ДОКТОРСКАЯ ДИССЕРТАЦИЯ · РАБОЧИЙ ТЕКСТ</div>
+      <h1>Глава 4. Структурированная реконструкция сцен и объектов</h1>
+      <p class="lead">От наблюдаемой формы к параметрам, конструктивной структуре и исполняемой CAD-программе.</p>
+      <div class="page-meta"><span class="badge">Рабочая редакция</span><span>6 разделов</span><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+4.+%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F+%D1%80%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F+%D1%81%D1%86%D0%B5%D0%BD+%D0%B8+%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+4.+%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F+%D1%80%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F+%D1%81%D1%86%D0%B5%D0%BD+%D0%B8+%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить страницу ↗</a></div>
+      <div id="structured-task" class="manuscript-section">
+<div class="section-topline"><h2 id="structured-task-heading">4.1. Постановка и критерии результата</h2><span class="badge draft">Черновик</span></div>
+<p>После выделения объектов требуется получить их конструктивное
+представление: параметры, части, связи и, где это уместно,
+последовательность операций геометрического ядра.</p>
+<p>Для разных классов объектов пригодны разные представления.
+Возможность описать предмет CAD-программой нельзя заранее предполагать
+для всех объектов сцены. Нужно определить класс допустимых моделей и
+способ обработки объектов вне него.</p>
+<p>Качество включает согласие с наблюдениями, геометрическую точность,
+валидность исполнения и содержательную редактируемость.</p>
+<div class="section-tools"><a href="#structured-task">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+4.1.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B8+%D0%BA%D1%80%D0%B8%D1%82%D0%B5%D1%80%D0%B8%D0%B8+%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%B0&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+4.1.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B8+%D0%BA%D1%80%D0%B8%D1%82%D0%B5%D1%80%D0%B8%D0%B8+%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%B0%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%23structured-task%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="parametric-history" class="manuscript-section">
+<div class="section-topline"><h2 id="parametric-history-heading">4.2. От подгонки примитивов к структуре</h2><span class="badge draft">Черновик</span></div>
+<p>Историческая основа — подгонка параметрических моделей к облакам
+точек и реконструкция фасадов с регулярной структурой <span
+class="citation"
+data-cites="konushin2006podgonka yakubenko2011reconstruction konushin2010poisk">(Е.
+и А. 2006 г.; Yakubenko и др. 2011 г.; А. и др. 2010 г.)</span>.</p>
+<p>Простая модель уменьшает число неизвестных, но ограничивает класс
+форм. Регулярность позволяет использовать повторяющиеся элементы; ошибки
+детекции и видимости могут нарушать такую структуру.</p>
+<p>В этой части нужно показать преемственность идей и их ограничения,
+отделив исторические результаты от новой постановки докторской.</p>
+<div class="section-tools"><a href="#parametric-history">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+4.2.+%D0%9E%D1%82+%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D0%BD%D0%BA%D0%B8+%D0%BF%D1%80%D0%B8%D0%BC%D0%B8%D1%82%D0%B8%D0%B2%D0%BE%D0%B2+%D0%BA+%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B5&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+4.2.+%D0%9E%D1%82+%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D0%BD%D0%BA%D0%B8+%D0%BF%D1%80%D0%B8%D0%BC%D0%B8%D1%82%D0%B8%D0%B2%D0%BE%D0%B2+%D0%BA+%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B5%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%23parametric-history%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="cad-programs" class="manuscript-section">
+<div class="section-topline"><h2 id="cad-programs-heading">4.3. Генерация и исправление CAD-программ</h2><span class="badge draft">Черновик</span></div>
+<p>Современная линия рассматривает программу построения как результат
+реконструкции. В локальном корпусе представлены cadrille, CADReasoner,
+CADENA и CADEvolve <span class="citation"
+data-cites="kolodiazhnyi2025cadrille kabisov2026cadreasoner kabisov2026cadena elistratov2026cadevolve">(Kolodiazhnyi
+и др. 2025 г.; Kabisov, Kirichuk, и др. 2026 г.; Kabisov, Savrasov, и
+др. 2026 г.; Elistratov и др. 2026 г.)</span>.</p>
+<p>Последовательность построения позволяет исполнять результат и
+анализировать промежуточную геометрию. В разных работах используются
+разные входы, способы обучения и механизмы исправления; их следует
+сравнивать по точным постановкам.</p>
+<p>Библиография перенесена из локального каталога. Наличие записи
+препринта не подтверждает прохождение журнальной или конференционной
+версии.</p>
+<div class="section-tools"><a href="#cad-programs">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+4.3.+%D0%93%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8+%D0%B8%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5+CAD-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+4.3.+%D0%93%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8+%D0%B8%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5+CAD-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%23cad-programs%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="cad-agent" class="manuscript-section">
+<div class="section-topline"><h2 id="cad-agent-heading">4.4. Агент и геометрическая обратная связь</h2><span class="badge draft">Черновик</span></div>
+<p>В текущей концепции агент использует инструменты геометрического
+ядра, исполняет программу, анализирует полученную форму и исправляет её.
+CADFather и CADMageddon указаны как развиваемые направления; их
+окончательные статусы здесь не устанавливаются.</p>
+<p>Предлагаемая схема: наблюдения → гипотеза программы → исполнение →
+сравнение с наблюдениями → исправление. Нужно отделить пользу конкретной
+модели, инструментария, стратегии поиска и бюджета вычислений.</p>
+<p><strong>Гипотеза для проверки:</strong> геометрическая обратная связь
+увеличивает долю корректных реконструкций при фиксированном бюджете. Для
+доказательства нужны варианты без обратной связи и с одинаковыми
+начальными условиями.</p>
+<div class="section-tools"><a href="#cad-agent">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+4.4.+%D0%90%D0%B3%D0%B5%D0%BD%D1%82+%D0%B8+%D0%B3%D0%B5%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D0%B0%D1%8F+%D1%81%D0%B2%D1%8F%D0%B7%D1%8C&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+4.4.+%D0%90%D0%B3%D0%B5%D0%BD%D1%82+%D0%B8+%D0%B3%D0%B5%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D0%B0%D1%8F+%D1%81%D0%B2%D1%8F%D0%B7%D1%8C%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%23cad-agent%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="scene-assembly" class="manuscript-section">
+<div class="section-topline"><h2 id="scene-assembly-heading">4.5. От отдельных объектов к сцене</h2><span class="badge draft">Черновик</span></div>
+<p>Построенные модели необходимо разместить в общей системе координат,
+согласовав масштаб, позы и контакты с планировкой. Нельзя оценивать
+объект только после независимого выравнивания, если целевая задача
+требует точного положения в сцене.</p>
+<p>Реконструкция объектов помещения и генерация недостающих assets
+обозначены в концепции как направления будущих исследований. Наблюдаемая
+форма и правдоподобная генеративная гипотеза должны различаться в данных
+и визуальном представлении.</p>
+<p>Структурные ограничения могут возвращаться к оценке камер и
+геометрии. Полезность такого контура требуется установить сквозным
+экспериментом.</p>
+<div class="section-tools"><a href="#scene-assembly">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+4.5.+%D0%9E%D1%82+%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D1%85+%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2+%D0%BA+%D1%81%D1%86%D0%B5%D0%BD%D0%B5&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+4.5.+%D0%9E%D1%82+%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D1%85+%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2+%D0%BA+%D1%81%D1%86%D0%B5%D0%BD%D0%B5%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%23scene-assembly%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="cad-evaluation" class="manuscript-section">
+<div class="section-topline"><h2 id="cad-evaluation-heading">4.6. Эксперименты и выводы</h2><span class="badge draft">Черновик</span></div>
+<p>Основные проверки: выполнение программы, валидность полученного тела,
+расстояния между поверхностями, совпадение видимых проекций, сложность
+построения и возможность осмысленного редактирования.</p>
+<p>Для нескольких допустимых историй построения совпадение
+последовательностей команд не является единственным критерием. Нужно
+фиксировать единицы длины, допуски ядра, обработку симметрий, тайм-ауты
+и долю невалидных результатов.</p>
+<p><strong>Предстоит:</strong> выбрать версии бенчмарков, описать точные
+протоколы и добавить воспроизводимые примеры. Численные результаты и
+окончательные положения главы ещё не сформулированы.</p>
+<div class="section-tools"><a href="#cad-evaluation">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+4.6.+%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D1%82%D1%8B+%D0%B8+%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+4.6.+%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D1%82%D1%8B+%D0%B8+%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fstructured-reconstruction.html%23cad-evaluation%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<h2 class="unnumbered" id="bibliography">Литература к странице</h2>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="list">
+<div id="ref-elistratov2026cadevolve" class="csl-entry" role="listitem">
+Elistratov, Maksim, Marina Barannikov, Gregory Ivanov, и др. 2026 г.
+<em>CADEvolve: Creating Realistic CAD via Program Evolution</em>. arXiv
+(Cornell University). <a
+href="https://doi.org/10.48550/arxiv.2602.16317">https://doi.org/10.48550/arxiv.2602.16317</a>.
+</div>
+<div id="ref-kabisov2026cadreasoner" class="csl-entry" role="listitem">
+Kabisov, Soslan, Vsevolod Kirichuk, Andrey Volkov, и др. 2026 г.
+<em>CADReasoner: Iterative Program Editing for CAD Reverse
+Engineering</em>. arXiv (Cornell University). <a
+href="https://doi.org/10.48550/arxiv.2603.29847">https://doi.org/10.48550/arxiv.2603.29847</a>.
+</div>
+<div id="ref-kabisov2026cadena" class="csl-entry" role="listitem">
+Kabisov, Soslan, Gennadiy Savrasov, Maksim Elistratov, и др. 2026 г.
+<em>CADENA: Stepwise CAD Reverse Engineering</em>. arXiv (Cornell
+University). <a
+href="https://doi.org/10.48550/arxiv.2608.00799">https://doi.org/10.48550/arxiv.2608.00799</a>.
+</div>
+<div id="ref-kolodiazhnyi2025cadrille" class="csl-entry"
+role="listitem">
+Kolodiazhnyi, Maksim, Denis Tarasov, Dmitrii Zhemchuzhnikov, и др. 2025
+г. <em>cadrille: Multi-modal CAD Reconstruction with Reinforcement
+Learning</em>. arXiv (Cornell University). <a
+href="https://doi.org/10.48550/arxiv.2505.22914">https://doi.org/10.48550/arxiv.2505.22914</a>.
+</div>
+<div id="ref-yakubenko2011reconstruction" class="csl-entry"
+role="listitem">
+Yakubenko, A. A., В. А. Кононов, I. S. Mizin, Vadim Konushin, и Anton
+Konushin. 2011 г. <span>«Reconstruction of Structure and Texture of City
+Building Facades»</span>. <em>Programming and Computer Software</em> 37
+(5): 260–69. <a
+href="https://doi.org/10.1134/S0361768811050057">https://doi.org/10.1134/S0361768811050057</a>.
+</div>
+<div id="ref-konushin2010poisk" class="csl-entry" role="listitem">
+А., Якубенко А., Мизин И. С., и Конушин А. С. 2010 г. <span>«Поиск
+регулярных решеток на текстуре фасадов зданий»</span>. <em>Программные
+продукты и системы</em>, вып. 4: 162–67. <a
+href="https://istina.msu.ru/publications/article/3717209/">https://istina.msu.ru/publications/article/3717209/</a>.
+</div>
+<div id="ref-konushin2006podgonka" class="csl-entry" role="listitem">
+Е., Лисицин, и Конушин А. 2006 г. <span>«Подгонка параметрических
+моделей к облакам трехмерных точек»</span>. <em>Труды 16-й Международной
+конференции по компьютерной графике и зрению ГрафиКон’2006</em>, 371–74.
+<a
+href="https://istina.msu.ru/publications/article/3717588/">https://istina.msu.ru/publications/article/3717588/</a>.
+</div>
+</div>
+
+      <div class="prev-next"><a class="prev" href="scene-understanding.html"><small>Предыдущая страница</small>← Семантическое понимание сцен</a><a class="next" href="rendering.html"><small>Следующая страница</small>→ Фотореалистичная визуализация</a></div>
+      <footer class="page-footer">Рабочая версия исследования · 2026-10-15 · 1ee10d8f4d<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+    <aside class="local-toc" aria-label="Разделы страницы"><div class="nav-label">НА ЭТОЙ СТРАНИЦЕ</div><a href="#structured-task">4.1. Постановка и критерии результата</a><a href="#parametric-history">4.2. От подгонки примитивов к структуре</a><a href="#cad-programs">4.3. Генерация и исправление CAD-программ</a><a href="#cad-agent">4.4. Агент и геометрическая обратная связь</a><a href="#scene-assembly">4.5. От отдельных объектов к сцене</a><a href="#cad-evaluation">4.6. Эксперименты и выводы</a></aside>
+  </div>
+</body>
+</html>

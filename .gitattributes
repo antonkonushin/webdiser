@@ -1,0 +1,2 @@
+# Preserve source bytes: build-manifest.json hashes exact input files.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol

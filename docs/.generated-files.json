@@ -1,0 +1,20 @@
+[
+  ".nojekyll",
+  "abstract-plan.html",
+  "appendices.html",
+  "assets/favicon.svg",
+  "assets/media/65c6e4fd1fe6-pipeline.svg",
+  "assets/site.js",
+  "assets/style.css",
+  "bibliography.html",
+  "build-manifest.json",
+  "chapters/camera-geometry.html",
+  "chapters/foundations.html",
+  "chapters/rendering.html",
+  "chapters/scene-understanding.html",
+  "chapters/structured-reconstruction.html",
+  "chapters/system-evaluation.html",
+  "conclusion.html",
+  "index.html",
+  "introduction.html"
+]

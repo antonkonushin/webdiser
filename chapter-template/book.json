@@ -1,0 +1,17 @@
+{
+  "title": "Название диссертации",
+  "subtitle": "Имя Фамилия · Организация · 2026",
+  "description": "Демонстрация оформления глав. Замените этот текст аннотацией своей работы.",
+  "chapters": [
+    {
+      "output": "chapter01.html",
+      "source": "chapters/chapter01.md",
+      "title": "Глава 1. Постановка задачи"
+    },
+    {
+      "output": "chapter02.html",
+      "source": "chapters/chapter02.md",
+      "title": "Глава 2. Метод и эксперимент"
+    }
+  ]
+}

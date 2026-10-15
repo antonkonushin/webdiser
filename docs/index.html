@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Методы построения структурированных трёхмерных моделей объектов и пространственных сцен по визуальным и геометрическим данным">
+  <meta name="theme-color" content="#0b0026">
+  <title>Структурированная 3D-реконструкция · Антон Конушин</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap home-layout">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        <a href="index.html" aria-current="page">Об этой работе</a>
+<a href="introduction.html"><span class="nav-num">·</span><span>Введение</span></a>
+<a href="chapters/foundations.html"><span class="nav-num">01</span><span>Постановка задач и обзор</span></a>
+<a href="chapters/camera-geometry.html"><span class="nav-num">02</span><span>Позы камер и разреженная реконструкция</span></a>
+<a href="chapters/scene-understanding.html"><span class="nav-num">03</span><span>Семантическое понимание сцен</span></a>
+<a href="chapters/structured-reconstruction.html"><span class="nav-num">04</span><span>Структурированная реконструкция сцен и объектов</span></a>
+<a href="chapters/rendering.html"><span class="nav-num">05</span><span>Фотореалистичная визуализация</span></a>
+<a href="chapters/system-evaluation.html"><span class="nav-num">06</span><span>Программная система и сквозная оценка</span></a>
+<div class="nav-separator"></div>
+<a href="conclusion.html"><span class="nav-num">·</span><span>Заключение</span></a>
+<a href="appendices.html"><span class="nav-num">·</span><span>Приложения</span></a>
+<div class="nav-separator"></div>
+<a href="abstract-plan.html"><span class="nav-num">·</span><span>План автореферата</span></a>
+<a href="bibliography.html"><span class="nav-num">·</span><span>Библиография</span></a>
+        <div class="nav-footer">Обновлено 2026-10-15<br><span>Редакция 1ee10d8f4d</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">АНТОН КОНУШИН / ДОКТОРСКАЯ ДИССЕРТАЦИЯ</div>
+      <h1>Структурированная 3D-реконструкция</h1>
+      <p class="lead">Методы построения структурированных трёхмерных моделей объектов и пространственных сцен по визуальным и геометрическим данным</p>
+
+      <div class="home-intro"><p>От изображений и геометрических наблюдений — к объектам, структуре сцены и редактируемым моделям. Электронный текст для последовательного чтения и обсуждения.</p></div>
+<div class="home-stats"><div><b>06</b>содержательных глав</div><div><b>41</b>раздел текста</div><div><b>01</b>рабочая версия</div></div>
+<div class="reading-links"><a href="introduction.html">Начать с введения →</a><a href="conclusion.html">Карта итогов</a><a href="bibliography.html">Библиография</a></div>
+<div class="contents-heading"><h2>Содержание исследования</h2><label class="search-label"><span class="visually-hidden">Найти главу</span><input class="search-input" type="search" id="chapter-search" placeholder="Найти главу…" aria-label="Найти главу"></label></div>
+<div class="chapter-grid"><a class="chapter-card" href="chapters/foundations.html"><div class="card-top"><span>ГЛАВА 01</span><span class="badge">Черновик</span></div><h3>Постановка задач и обзор</h3><p>Что восстанавливается по наблюдениям, какие представления сравниваются и как измерять результат.</p><div class="card-bottom"><span>6 разделов</span><span>Читать главу →</span></div></a><a class="chapter-card" href="chapters/camera-geometry.html"><div class="card-top"><span>ГЛАВА 02</span><span class="badge">Черновик</span></div><h3>Позы камер и разреженная реконструкция</h3><p>Соответствия, устойчивое оценивание, SfM по видео и редким снимкам, калибровка.</p><div class="card-bottom"><span>6 разделов</span><span>Читать главу →</span></div></a><a class="chapter-card" href="chapters/scene-understanding.html"><div class="card-top"><span>ГЛАВА 03</span><span class="badge">Черновик</span></div><h3>Семантическое понимание сцен</h3><p>Выделение объектов и их наблюдений для последующей индивидуальной реконструкции.</p><div class="card-bottom"><span>6 разделов</span><span>Читать главу →</span></div></a><a class="chapter-card" href="chapters/structured-reconstruction.html"><div class="card-top"><span>ГЛАВА 04</span><span class="badge">Черновик</span></div><h3>Структурированная реконструкция сцен и объектов</h3><p>От наблюдаемой формы к параметрам, конструктивной структуре и исполняемой CAD-программе.</p><div class="card-bottom"><span>6 разделов</span><span>Читать главу →</span></div></a><a class="chapter-card" href="chapters/rendering.html"><div class="card-top"><span>ГЛАВА 05</span><span class="badge">Черновик</span></div><h3>Фотореалистичная визуализация</h3><p>Опциональная глава: внешний вид модели, нейровизуализация и проверка по изображениям.</p><div class="card-bottom"><span>3 раздела</span><span>Читать главу →</span></div></a><a class="chapter-card" href="chapters/system-evaluation.html"><div class="card-top"><span>ГЛАВА 06</span><span class="badge">Черновик</span></div><h3>Программная система и сквозная оценка</h3><p>Общий сценарий, интерфейсы компонентов и протокол проверки всей реконструкции.</p><div class="card-bottom"><span>5 разделов</span><span>Читать главу →</span></div></a></div><p id="search-empty" hidden>По этому запросу главы не найдены.</p>
+<div class="discussion-note"><h2>Открыто для обсуждения</h2><p>Это первый черновик. В тексте разделены постановки, планы и результаты, которые ещё требуется подтвердить. У каждого раздела есть постоянная ссылка и кнопка обсуждения через GitHub. Особенно полезны замечания о связности работы, научном ядре и программе экспериментов.</p></div>
+
+      <footer class="page-footer">Рабочая версия исследования · 2026-10-15 · 1ee10d8f4d<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+
+  </div>
+</body>
+</html>

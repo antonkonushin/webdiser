@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 475" role="img" aria-labelledby="title desc">
+<title id="title">От наблюдений к проверяемой модели</title>
+<desc id="desc">Пять этапов исследования и обратная связь от проверки к геометрии.</desc>
+<rect width="900" height="475" rx="18" fill="#f7f7fa"/>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#6a3fea"/></marker></defs>
+<rect x="170" y="24" width="550" height="62" rx="9" fill="white" stroke="#e4e5ee"/>
+<text x="195" y="49" font-family="Arial,sans-serif" font-size="19" fill="#0b0026">01  Наблюдения</text>
+<text x="242" y="71" font-family="Arial,sans-serif" font-size="14" fill="#6b6b76">RGB · глубина · точки</text>
+<path d="M445 87v15" stroke="#6a3fea" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="170" y="106" width="550" height="62" rx="9" fill="white" stroke="#e4e5ee"/>
+<text x="195" y="131" font-family="Arial,sans-serif" font-size="19" fill="#0b0026">02  Камеры и геометрия</text>
+<text x="242" y="153" font-family="Arial,sans-serif" font-size="14" fill="#6b6b76">позы · масштаб · форма</text>
+<path d="M445 169v15" stroke="#6a3fea" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="170" y="188" width="550" height="62" rx="9" fill="white" stroke="#e4e5ee"/>
+<text x="195" y="213" font-family="Arial,sans-serif" font-size="19" fill="#0b0026">03  Объекты и структура</text>
+<text x="242" y="235" font-family="Arial,sans-serif" font-size="14" fill="#6b6b76">маски · классы · связи</text>
+<path d="M445 251v15" stroke="#6a3fea" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="170" y="270" width="550" height="62" rx="9" fill="white" stroke="#e4e5ee"/>
+<text x="195" y="295" font-family="Arial,sans-serif" font-size="19" fill="#0b0026">04  Исполняемая модель</text>
+<text x="242" y="317" font-family="Arial,sans-serif" font-size="14" fill="#6b6b76">параметры · программа</text>
+<path d="M445 333v15" stroke="#6a3fea" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="170" y="352" width="550" height="62" rx="9" fill="white" stroke="#e4e5ee"/>
+<text x="195" y="377" font-family="Arial,sans-serif" font-size="19" fill="#0b0026">05  Проверка</text>
+<text x="242" y="399" font-family="Arial,sans-serif" font-size="14" fill="#6b6b76">ошибки · ограничения</text>
+<path d="M725 383H795V137H728" fill="none" stroke="#6a3fea" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="820" y="325" transform="rotate(-90 820 325)" font-family="Arial,sans-serif" font-size="14" fill="#6a3fea">гипотеза обратной связи</text>
+</svg>

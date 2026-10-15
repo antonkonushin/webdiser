@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Соответствия, устойчивое оценивание, SfM по видео и редким снимкам, калибровка.">
+  <meta name="theme-color" content="#0b0026">
+  <title>Глава 2. Позы камер и разреженная реконструкция · Антон Конушин</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap ">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        <a href="../index.html">Об этой работе</a>
+<a href="../introduction.html"><span class="nav-num">·</span><span>Введение</span></a>
+<a href="../chapters/foundations.html"><span class="nav-num">01</span><span>Постановка задач и обзор</span></a>
+<a href="../chapters/camera-geometry.html" aria-current="page"><span class="nav-num">02</span><span>Позы камер и разреженная реконструкция</span></a>
+<a href="../chapters/scene-understanding.html"><span class="nav-num">03</span><span>Семантическое понимание сцен</span></a>
+<a href="../chapters/structured-reconstruction.html"><span class="nav-num">04</span><span>Структурированная реконструкция сцен и объектов</span></a>
+<a href="../chapters/rendering.html"><span class="nav-num">05</span><span>Фотореалистичная визуализация</span></a>
+<a href="../chapters/system-evaluation.html"><span class="nav-num">06</span><span>Программная система и сквозная оценка</span></a>
+<div class="nav-separator"></div>
+<a href="../conclusion.html"><span class="nav-num">·</span><span>Заключение</span></a>
+<a href="../appendices.html"><span class="nav-num">·</span><span>Приложения</span></a>
+<div class="nav-separator"></div>
+<a href="../abstract-plan.html"><span class="nav-num">·</span><span>План автореферата</span></a>
+<a href="../bibliography.html"><span class="nav-num">·</span><span>Библиография</span></a>
+        <div class="nav-footer">Обновлено 2026-10-15<br><span>Редакция 1ee10d8f4d</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">ДОКТОРСКАЯ ДИССЕРТАЦИЯ · РАБОЧИЙ ТЕКСТ</div>
+      <h1>Глава 2. Позы камер и разреженная реконструкция</h1>
+      <p class="lead">Соответствия, устойчивое оценивание, SfM по видео и редким снимкам, калибровка.</p>
+      <div class="page-meta"><span class="badge">Рабочая редакция</span><span>6 разделов</span><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+2.+%D0%9F%D0%BE%D0%B7%D1%8B+%D0%BA%D0%B0%D0%BC%D0%B5%D1%80+%D0%B8+%D1%80%D0%B0%D0%B7%D1%80%D0%B5%D0%B6%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F+%D1%80%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+2.+%D0%9F%D0%BE%D0%B7%D1%8B+%D0%BA%D0%B0%D0%BC%D0%B5%D1%80+%D0%B8+%D1%80%D0%B0%D0%B7%D1%80%D0%B5%D0%B6%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F+%D1%80%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить страницу ↗</a></div>
+      <div id="camera-task" class="manuscript-section">
+<div class="section-topline"><h2 id="camera-task-heading">2.1. Постановка и модель наблюдений</h2><span class="badge draft">Черновик</span></div>
+<p>Наблюдения связываются проективной моделью <span
+class="math inline">\(\mathbf{x}_{ij}\sim K_i[R_i\mid
+t_i]\mathbf{X}_j\)</span>. Требуется оценить параметры камер и точки
+сцены при шуме, выбросах и неполном перекрытии изображений.</p>
+<p>Разделяются четыре задачи: SfM по видео, SfM по неупорядоченным
+снимкам, релокализация в существующей карте и калибровка стационарных
+камер. Они различаются доступной структурой данных и оцениваемыми
+неизвестными.</p>
+<p>На выходе нужны позы, параметры камеры, разреженная геометрия, связи
+наблюдений и диагностика надёжности. Метрический масштаб задаётся
+отдельным источником или остаётся неопределённым.</p>
+<div class="section-tools"><a href="#camera-task">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+2.1.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B8+%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C+%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B9&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+2.1.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B8+%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C+%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B9%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%23camera-task%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="matching" class="manuscript-section">
+<div class="section-topline"><h2 id="matching-heading">2.2. Соответствия и робастное оценивание</h2><span class="badge draft">Черновик</span></div>
+<p>Качество геометрии зависит от распределения соответствий, точности
+локализации и доли выбросов. Исторические опоры — guided tracking,
+quasi-dense tracking и робастное оценивание с неизвестным уровнем шума
+<span class="citation"
+data-cites="khropov2006guided konushin2006extending">(Khropov и Konushin
+2006 г.; S. и др. 2006 г.)</span>.</p>
+<p>Предлагается сопоставить классические и обучаемые соответствия при
+одинаковой геометрической проверке. Проверять нужно не только число пар,
+но и связность треков, устойчивость к изменению резкости, повторяющимся
+текстурам и малому параллаксу.</p>
+<p><strong>Доработать:</strong> формальные алгоритмы, условия
+применимости и результаты сравнений по исходным статьям.</p>
+<div class="section-tools"><a href="#matching">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+2.2.+%D0%A1%D0%BE%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D1%8F+%D0%B8+%D1%80%D0%BE%D0%B1%D0%B0%D1%81%D1%82%D0%BD%D0%BE%D0%B5+%D0%BE%D1%86%D0%B5%D0%BD%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+2.2.+%D0%A1%D0%BE%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D1%8F+%D0%B8+%D1%80%D0%BE%D0%B1%D0%B0%D1%81%D1%82%D0%BD%D0%BE%D0%B5+%D0%BE%D1%86%D0%B5%D0%BD%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%23matching%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="video-sfm" class="manuscript-section">
+<div class="section-topline"><h2 id="video-sfm-heading">2.3. SfM по видео</h2><span class="badge draft">Черновик</span></div>
+<p>Видеопоследовательность даёт временной порядок и позволяет строить
+треки. Базовая схема включает выбор ключевых кадров, построение
+соответствий, инициализацию геометрии, триангуляцию и совместное
+уточнение камер и точек.</p>
+<p>Современное направление из концепции — сочетание предобученных
+геометрических моделей с классической оптимизацией. Требуется проверить,
+какие ошибки начальных предсказаний исправляются оптимизацией, а какие
+закрепляются из-за неправильного масштаба, отбора кадров или функции
+ошибки.</p>
+<p>Запланированные статьи о гибридном конвейере и надёжности bundle
+adjustment остаются планами до отдельного подтверждения их редакционного
+статуса.</p>
+<div class="section-tools"><a href="#video-sfm">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+2.3.+SfM+%D0%BF%D0%BE+%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+2.3.+SfM+%D0%BF%D0%BE+%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%23video-sfm%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="sparse-sfm" class="manuscript-section">
+<div class="section-topline"><h2 id="sparse-sfm-heading">2.4. Помещения по разреженным снимкам</h2><span class="badge draft">Черновик</span></div>
+<p>В неупорядоченном наборе снимков нет гарантированной временной
+связности. Приходится выбирать пары, оценивать перекрытие и обнаруживать
+несвязанные компоненты. Повторяющиеся интерьеры и слабые текстуры
+увеличивают неоднозначность.</p>
+<p>Структурная информация может ограничивать уточнение камер. Пример
+существующей линии — использование плана помещения в Floorplan-aware
+Camera Poses Refinement <span class="citation"
+data-cites="sokolova2022floorplanaware">(Sokolova и др. 2022 г.)</span>.
+Наличие плана является дополнительным входом и должно учитываться в
+сравнении.</p>
+<p><strong>План эксперимента:</strong> раздельно оценить ошибку поз,
+полноту зарегистрированных кадров и влияние на последующую геометрию и
+выделение объектов.</p>
+<div class="section-tools"><a href="#sparse-sfm">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+2.4.+%D0%9F%D0%BE%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D1%8F+%D0%BF%D0%BE+%D1%80%D0%B0%D0%B7%D1%80%D0%B5%D0%B6%D0%B5%D0%BD%D0%BD%D1%8B%D0%BC+%D1%81%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%D0%BC&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+2.4.+%D0%9F%D0%BE%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D1%8F+%D0%BF%D0%BE+%D1%80%D0%B0%D0%B7%D1%80%D0%B5%D0%B6%D0%B5%D0%BD%D0%BD%D1%8B%D0%BC+%D1%81%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%D0%BC%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%23sparse-sfm%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="relocalization" class="manuscript-section">
+<div class="section-topline"><h2 id="relocalization-heading">2.5. Релокализация и стационарные камеры</h2><span class="badge draft">Черновик</span></div>
+<p>Релокализация оценивает позу нового изображения относительно готовой
+карты. Это отличается от построения новой карты: качество зависит и от
+наблюдаемости сцены, и от покрытия исходной модели.</p>
+<p>Другая линия — калибровка стационарной камеры по наблюдениям людей.
+Детекции и оценки поз дают ограничения на параметры камеры и положение
+человека в мировой системе координат <span class="citation"
+data-cites="shalimova2020camera">(Shalimova и др. 2020 г.)</span>.</p>
+<p>Методы ReID, позы и походки могут помогать ассоциациям между
+камерами. Пользу этих ассоциаций для совместной калибровки нужно
+доказать отдельным экспериментом; качество идентификации само по себе
+этого не устанавливает.</p>
+<div class="section-tools"><a href="#relocalization">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+2.5.+%D0%A0%D0%B5%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8+%D1%81%D1%82%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D1%80%D0%BD%D1%8B%D0%B5+%D0%BA%D0%B0%D0%BC%D0%B5%D1%80%D1%8B&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+2.5.+%D0%A0%D0%B5%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8+%D1%81%D1%82%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D1%80%D0%BD%D1%8B%D0%B5+%D0%BA%D0%B0%D0%BC%D0%B5%D1%80%D1%8B%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%23relocalization%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="camera-evaluation" class="manuscript-section">
+<div class="section-topline"><h2 id="camera-evaluation-heading">2.6. Оценка, глубина и интерфейс следующей главы</h2><span class="badge draft">Черновик</span></div>
+<p>Проверка включает ошибки поз, долю зарегистрированных изображений,
+устойчивость к шуму и стоимость вычислений. Вариант выравнивания
+траекторий и доступ к масштабу указываются до сравнения.</p>
+<p>Разреженная реконструкция не заменяет плотную геометрию. Оценка и
+дополнение глубины рассматриваются как дополнительный источник
+наблюдений; полезность определяется также межвидовой согласованностью
+<span class="citation"
+data-cites="patakin2022singlestage senushkin2021decoder gabdullin2025depthart">(Patakin
+и др. 2022 г.; Senushkin и др. 2021 г.; Gabdullin и др. 2025
+г.)</span>.</p>
+<p>Следующая глава получает изображения, оценённые камеры и доступную
+геометрию. Эталонные и восстановленные значения не смешиваются.
+<strong>Численные таблицы, абляции и окончательные выводы ещё предстоит
+добавить.</strong></p>
+<p>Следующий этап — <a href="scene-understanding.html">семантическое
+понимание сцены</a>.</p>
+<div class="section-tools"><a href="#camera-evaluation">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+2.6.+%D0%9E%D1%86%D0%B5%D0%BD%D0%BA%D0%B0%2C+%D0%B3%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D0%B0+%D0%B8+%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81+%D1%81%D0%BB%D0%B5%D0%B4%D1%83%D1%8E%D1%89%D0%B5%D0%B9+%D0%B3%D0%BB%D0%B0%D0%B2%D1%8B&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+2.6.+%D0%9E%D1%86%D0%B5%D0%BD%D0%BA%D0%B0%2C+%D0%B3%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D0%B0+%D0%B8+%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81+%D1%81%D0%BB%D0%B5%D0%B4%D1%83%D1%8E%D1%89%D0%B5%D0%B9+%D0%B3%D0%BB%D0%B0%D0%B2%D1%8B%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Fcamera-geometry.html%23camera-evaluation%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<h2 class="unnumbered" id="bibliography">Литература к странице</h2>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="list">
+<div id="ref-gabdullin2025depthart" class="csl-entry" role="listitem">
+Gabdullin, B. M., Nina Konovalova, Nikolay Patakin, Dmitry Senushkin, и
+Anton Konushin. 2025 г. <em>DepthART: Monocular Depth Estimation as
+Autoregressive Refinement Task</em>. <a
+href="https://doi.org/10.24963/ijcai.2025/114">https://doi.org/10.24963/ijcai.2025/114</a>.
+</div>
+<div id="ref-khropov2006guided" class="csl-entry" role="listitem">
+Khropov, Andrei, и Anton Konushin. 2006 г. <span>«Guided Quasi-Dense
+Tracking for 3D Reconstruction»</span>. <em>Proceedings of the 16th
+International Conference on Computer Graphics and Vision
+GraphiCon’2006</em>, 47–53. <a
+href="https://istina.msu.ru/publications/article/3717758/">https://istina.msu.ru/publications/article/3717758/</a>.
+</div>
+<div id="ref-patakin2022singlestage" class="csl-entry" role="listitem">
+Patakin, Nikolay, Anna Vorontsova, Mikhail Artemyev, и Anton Konushin.
+2022 г. <span>«Single-Stage 3D Geometry-Preserving Depth Estimation
+Model Training on Dataset Mixtures with Uncalibrated Stereo
+Data»</span>. <em>2022 IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR)</em>, 1695–704. <a
+href="https://doi.org/10.1109/cvpr52688.2022.00175">https://doi.org/10.1109/cvpr52688.2022.00175</a>.
+</div>
+<div id="ref-konushin2006extending" class="csl-entry" role="listitem">
+S., Konouchine A., Gaganov V. A., и Vezhnevets V. P. 2006 г.
+<span>«Extending RANSAC-based estimators to handle unknown and varying
+noise level»</span>. <em>Sibirskii zhurnal vychislitel’noi
+matematiki</em> 9 (3): 263–77. <a
+href="https://istina.msu.ru/publications/article/3717270/">https://istina.msu.ru/publications/article/3717270/</a>.
+</div>
+<div id="ref-senushkin2021decoder" class="csl-entry" role="listitem">
+Senushkin, Dmitry, Mikhail Romanov, Ilia Belikov, Nikolay Patakin, и
+Anton Konushin. 2021 г. <span>«Decoder Modulation for Indoor Depth
+Completion»</span>. <em>2021 IEEE/RSJ International Conference on
+Intelligent Robots and Systems (IROS)</em>, 2181–88. <a
+href="https://doi.org/10.1109/iros51168.2021.9636870">https://doi.org/10.1109/iros51168.2021.9636870</a>.
+</div>
+<div id="ref-shalimova2020camera" class="csl-entry" role="listitem">
+Shalimova, E. A., E. V. Shalnov, и Anton Konushin. 2020 г. <span>«Camera
+parameters estimation from pose detections»</span>. <em>Computer
+Optics</em> 44 (3): 385–92. <a
+href="https://doi.org/10.18287/2412-6179-CO-600">https://doi.org/10.18287/2412-6179-CO-600</a>.
+</div>
+<div id="ref-sokolova2022floorplanaware" class="csl-entry"
+role="listitem">
+Sokolova, Anna, Filipp Nikitin, Anna Vorontsova, и Anton Konushin. 2022
+г. <span>«Floorplan-Aware Camera Poses Refinement»</span>. <em>2022
+IEEE/RSJ International Conference on Intelligent Robots and Systems
+(IROS)</em>. <a
+href="https://doi.org/10.1109/iros47612.2022.9981148">https://doi.org/10.1109/iros47612.2022.9981148</a>.
+</div>
+</div>
+
+      <div class="prev-next"><a class="prev" href="foundations.html"><small>Предыдущая страница</small>← Постановка задач и обзор</a><a class="next" href="scene-understanding.html"><small>Следующая страница</small>→ Семантическое понимание сцен</a></div>
+      <footer class="page-footer">Рабочая версия исследования · 2026-10-15 · 1ee10d8f4d<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+    <aside class="local-toc" aria-label="Разделы страницы"><div class="nav-label">НА ЭТОЙ СТРАНИЦЕ</div><a href="#camera-task">2.1. Постановка и модель наблюдений</a><a href="#matching">2.2. Соответствия и робастное оценивание</a><a href="#video-sfm">2.3. SfM по видео</a><a href="#sparse-sfm">2.4. Помещения по разреженным снимкам</a><a href="#relocalization">2.5. Релокализация и стационарные камеры</a><a href="#camera-evaluation">2.6. Оценка, глубина и интерфейс следующей главы</a></aside>
+  </div>
+</body>
+</html>

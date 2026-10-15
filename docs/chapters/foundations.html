@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Что восстанавливается по наблюдениям, какие представления сравниваются и как измерять результат.">
+  <meta name="theme-color" content="#0b0026">
+  <title>Глава 1. Постановка задач и обзор · Антон Конушин</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap ">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        <a href="../index.html">Об этой работе</a>
+<a href="../introduction.html"><span class="nav-num">·</span><span>Введение</span></a>
+<a href="../chapters/foundations.html" aria-current="page"><span class="nav-num">01</span><span>Постановка задач и обзор</span></a>
+<a href="../chapters/camera-geometry.html"><span class="nav-num">02</span><span>Позы камер и разреженная реконструкция</span></a>
+<a href="../chapters/scene-understanding.html"><span class="nav-num">03</span><span>Семантическое понимание сцен</span></a>
+<a href="../chapters/structured-reconstruction.html"><span class="nav-num">04</span><span>Структурированная реконструкция сцен и объектов</span></a>
+<a href="../chapters/rendering.html"><span class="nav-num">05</span><span>Фотореалистичная визуализация</span></a>
+<a href="../chapters/system-evaluation.html"><span class="nav-num">06</span><span>Программная система и сквозная оценка</span></a>
+<div class="nav-separator"></div>
+<a href="../conclusion.html"><span class="nav-num">·</span><span>Заключение</span></a>
+<a href="../appendices.html"><span class="nav-num">·</span><span>Приложения</span></a>
+<div class="nav-separator"></div>
+<a href="../abstract-plan.html"><span class="nav-num">·</span><span>План автореферата</span></a>
+<a href="../bibliography.html"><span class="nav-num">·</span><span>Библиография</span></a>
+        <div class="nav-footer">Обновлено 2026-10-15<br><span>Редакция 1ee10d8f4d</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">ДОКТОРСКАЯ ДИССЕРТАЦИЯ · РАБОЧИЙ ТЕКСТ</div>
+      <h1>Глава 1. Постановка задач и обзор</h1>
+      <p class="lead">Что восстанавливается по наблюдениям, какие представления сравниваются и как измерять результат.</p>
+      <div class="page-meta"><span class="badge">Рабочая редакция</span><span>6 разделов</span><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+1.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87+%D0%B8+%D0%BE%D0%B1%D0%B7%D0%BE%D1%80&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+1.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87+%D0%B8+%D0%BE%D0%B1%D0%B7%D0%BE%D1%80%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить страницу ↗</a></div>
+      <div id="foundations-overview" class="manuscript-section">
+<div class="section-topline"><h2 id="foundations-overview-heading">1.1. От наблюдений к структурированной модели</h2><span class="badge draft">Черновик</span></div>
+<p>Реконструкцию удобно рассматривать как последовательность переходов
+между представлениями. Изображения дают наблюдения поверхностей; оценка
+камер связывает виды; геометрия описывает форму; распознавание выделяет
+объекты; структурированная модель связывает их с параметрами и
+отношениями.</p>
+<figure id="fig-pipeline">
+<img src="../assets/media/65c6e4fd1fe6-pipeline.svg"
+alt="Логическая схема диссертации" />
+<figcaption aria-hidden="true">Логическая схема диссертации</figcaption>
+</figure>
+<p><em>Схема показывает план изложения. Стрелки не означают, что единая
+система уже реализована.</em></p>
+<p>Результат каждого этапа должен сопровождаться сведениями о системе
+координат, масштабе, видимости и неопределённости. Это делает возможным
+анализ ошибок между этапами.</p>
+<div class="section-tools"><a href="#foundations-overview">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+1.1.+%D0%9E%D1%82+%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B9+%D0%BA+%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B9+%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+1.1.+%D0%9E%D1%82+%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B9+%D0%BA+%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B9+%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%23foundations-overview%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="problem-regimes" class="manuscript-section">
+<div class="section-topline"><h2 id="problem-regimes-heading">1.2. Постановки задач и режимы наблюдения</h2><span class="badge draft">Черновик</span></div>
+<div class="scrollx"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Режим</th>
+<th>Что дано</th>
+<th>Что оценивается</th>
+<th>Основная неоднозначность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RGB без поз</td>
+<td>Изображения</td>
+<td>Камеры и геометрия</td>
+<td>Масштаб, перекрытие, связность</td>
+</tr>
+<tr>
+<td>RGB с позами</td>
+<td>Изображения и калибровка</td>
+<td>Геометрия и объекты</td>
+<td>Невидимые поверхности</td>
+</tr>
+<tr>
+<td>RGB-D</td>
+<td>Цвет и глубина</td>
+<td>Регистрация и объединённая сцена</td>
+<td>Шум и пропуски измерений</td>
+</tr>
+<tr>
+<td>Облако точек</td>
+<td>3D-наблюдения</td>
+<td>Объекты и форма</td>
+<td>Неполнота, плотность, семантика</td>
+</tr>
+<tr>
+<td>Отдельный объект</td>
+<td>Его наблюдения</td>
+<td>Параметрическая модель</td>
+<td>Неединственность истории построения</td>
+</tr>
+</tbody>
+</table></div>
+<p>Сравнение методов допустимо при сопоставимых входах. Качество по
+истинным позам не заменяет оценку по позам, восстановленным из
+изображений. План помещения может быть входом, ограничением или целевым
+результатом — роль должна быть указана явно.</p>
+<div class="section-tools"><a href="#problem-regimes">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+1.2.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87+%D0%B8+%D1%80%D0%B5%D0%B6%D0%B8%D0%BC%D1%8B+%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+1.2.+%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87+%D0%B8+%D1%80%D0%B5%D0%B6%D0%B8%D0%BC%D1%8B+%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%23problem-regimes%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="representations" class="manuscript-section">
+<div class="section-topline"><h2 id="representations-heading">1.3. Представления результата</h2><span class="badge draft">Черновик</span></div>
+<p>Облако точек, сетка, поле плотности, набор объектов и CAD-программа
+описывают разные свойства сцены. Выбор представления определяется
+задачей использования: просмотром, измерением, семантическим анализом
+или редактированием.</p>
+<p>Для обсуждения введём модель <span
+class="math inline">\(M=(C,G,S,P,A)\)</span>, где <span
+class="math inline">\(C\)</span> — камеры, <span
+class="math inline">\(G\)</span> — геометрия, <span
+class="math inline">\(S\)</span> — семантика и отношения, <span
+class="math inline">\(P\)</span> — параметрическая или программная
+структура, <span class="math inline">\(A\)</span> — внешний вид.</p>
+<p>Это обозначение задаёт рамку исследования. Оно само по себе не
+определяет алгоритм и не доказывает возможность совместной оптимизации
+всех компонент.</p>
+<div class="section-tools"><a href="#representations">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+1.3.+%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F+%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%B0&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+1.3.+%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F+%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%B0%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%23representations%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="method-history" class="manuscript-section">
+<div class="section-topline"><h2 id="method-history-heading">1.4. Линии развития методов</h2><span class="badge draft">Черновик</span></div>
+<p>Историческая линия начинается с соответствий между видами, робастного
+оценивания и подгонки параметрических моделей. В ранних работах
+рассматриваются направленное отслеживание и адаптация оценки к
+неизвестному шуму <span class="citation"
+data-cites="konushin2005amlesac konushin2006extending khropov2006guided">(A.
+и др. 2005 г.; S. и др. 2006 г.; Khropov и Konushin 2006 г.)</span>.</p>
+<p>Дальнейшие линии — обучаемая геометрия, трёхмерное распознавание,
+генерация параметров и программ построения. В черновике их необходимо
+связать через общие входы, выходы и экспериментальные ограничения,
+сохраняя различия научных задач.</p>
+<p><strong>Доработать:</strong> хронологическую схему, критерии перехода
+между поколениями методов и сопоставление с современными внешними
+подходами. Полный обзор литературы здесь ещё не подготовлен.</p>
+<div class="section-tools"><a href="#method-history">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+1.4.+%D0%9B%D0%B8%D0%BD%D0%B8%D0%B8+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F+%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%BE%D0%B2&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+1.4.+%D0%9B%D0%B8%D0%BD%D0%B8%D0%B8+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F+%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%BE%D0%B2%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%23method-history%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="datasets-metrics" class="manuscript-section">
+<div class="section-topline"><h2 id="datasets-metrics-heading">1.5. Датчики, данные и метрики</h2><span class="badge draft">Черновик</span></div>
+<p>Протокол должен фиксировать тип сенсора, калибровку, версию набора
+данных, разбиение сцен, доступ к эталонным позам и геометрии. Отдельно
+указываются данные обучения, настройки и итогового тестирования.</p>
+<p>Для поз нужны ошибки положения и ориентации с описанием выравнивания.
+Для геометрии — точность, полнота и единицы измерения. Для распознавания
+— метрики рамок или масок с точным протоколом. Для CAD — валидность
+исполнения, геометрическое согласие и редактируемость.</p>
+<p>Усреднённая метрика должна сопровождаться долей отказов. Исключение
+сложных сцен из оценки без отчёта меняет смысл результата.</p>
+<div class="section-tools"><a href="#datasets-metrics">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+1.5.+%D0%94%D0%B0%D1%82%D1%87%D0%B8%D0%BA%D0%B8%2C+%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5+%D0%B8+%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+1.5.+%D0%94%D0%B0%D1%82%D1%87%D0%B8%D0%BA%D0%B8%2C+%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5+%D0%B8+%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%23datasets-metrics%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="foundations-conclusions" class="manuscript-section">
+<div class="section-topline"><h2 id="foundations-conclusions-heading">1.6. Выводы и открытые вопросы</h2><span class="badge draft">Черновик</span></div>
+<p>В качестве основы следующих глав приняты раздельные режимы наблюдения
+и явные интерфейсы между этапами. Ключевой вопрос — какие ограничения
+следующего этапа полезны для исправления предыдущего и как это
+измерить.</p>
+<p><strong>Предстоит:</strong> определить целевой сценарий сквозного
+эксперимента, выбрать версии наборов данных и зафиксировать набор
+сравниваемых методов. Численные результаты в этой главе пока не
+представлены.</p>
+<div class="section-tools"><a href="#foundations-conclusions">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+1.6.+%D0%92%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B+%D0%B8+%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B5+%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+1.6.+%D0%92%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B+%D0%B8+%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B5+%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Ffoundations.html%23foundations-conclusions%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<h2 class="unnumbered" id="bibliography">Литература к странице</h2>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="list">
+<div id="ref-konushin2005amlesac" class="csl-entry" role="listitem">
+A., Konouchine, Gaganov V., и Veznevets V. 2005 г. <span>«AMLESAC: A New
+Maximum Likelihood Robust Estimator»</span>. <em>Proceedings of the 15th
+International Conference on Computer Graphics and Vision
+GraphiCon’2005</em>, 93–100. <a
+href="https://istina.msu.ru/publications/article/3717524/">https://istina.msu.ru/publications/article/3717524/</a>.
+</div>
+<div id="ref-khropov2006guided" class="csl-entry" role="listitem">
+Khropov, Andrei, и Anton Konushin. 2006 г. <span>«Guided Quasi-Dense
+Tracking for 3D Reconstruction»</span>. <em>Proceedings of the 16th
+International Conference on Computer Graphics and Vision
+GraphiCon’2006</em>, 47–53. <a
+href="https://istina.msu.ru/publications/article/3717758/">https://istina.msu.ru/publications/article/3717758/</a>.
+</div>
+<div id="ref-konushin2006extending" class="csl-entry" role="listitem">
+S., Konouchine A., Gaganov V. A., и Vezhnevets V. P. 2006 г.
+<span>«Extending RANSAC-based estimators to handle unknown and varying
+noise level»</span>. <em>Sibirskii zhurnal vychislitel’noi
+matematiki</em> 9 (3): 263–77. <a
+href="https://istina.msu.ru/publications/article/3717270/">https://istina.msu.ru/publications/article/3717270/</a>.
+</div>
+</div>
+
+      <div class="prev-next"><a class="prev" href="../introduction.html"><small>Предыдущая страница</small>← Введение</a><a class="next" href="camera-geometry.html"><small>Следующая страница</small>→ Позы камер и разреженная реконструкция</a></div>
+      <footer class="page-footer">Рабочая версия исследования · 2026-10-15 · 1ee10d8f4d<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+    <aside class="local-toc" aria-label="Разделы страницы"><div class="nav-label">НА ЭТОЙ СТРАНИЦЕ</div><a href="#foundations-overview">1.1. От наблюдений к структурированной модели</a><a href="#problem-regimes">1.2. Постановки задач и режимы наблюдения</a><a href="#representations">1.3. Представления результата</a><a href="#method-history">1.4. Линии развития методов</a><a href="#datasets-metrics">1.5. Датчики, данные и метрики</a><a href="#foundations-conclusions">1.6. Выводы и открытые вопросы</a></aside>
+  </div>
+</body>
+</html>

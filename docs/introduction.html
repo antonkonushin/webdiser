@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Научная проблема, цель исследования и границы текущего проекта.">
+  <meta name="theme-color" content="#0b0026">
+  <title>Введение · Антон Конушин</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap ">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        <a href="index.html">Об этой работе</a>
+<a href="introduction.html" aria-current="page"><span class="nav-num">·</span><span>Введение</span></a>
+<a href="chapters/foundations.html"><span class="nav-num">01</span><span>Постановка задач и обзор</span></a>
+<a href="chapters/camera-geometry.html"><span class="nav-num">02</span><span>Позы камер и разреженная реконструкция</span></a>
+<a href="chapters/scene-understanding.html"><span class="nav-num">03</span><span>Семантическое понимание сцен</span></a>
+<a href="chapters/structured-reconstruction.html"><span class="nav-num">04</span><span>Структурированная реконструкция сцен и объектов</span></a>
+<a href="chapters/rendering.html"><span class="nav-num">05</span><span>Фотореалистичная визуализация</span></a>
+<a href="chapters/system-evaluation.html"><span class="nav-num">06</span><span>Программная система и сквозная оценка</span></a>
+<div class="nav-separator"></div>
+<a href="conclusion.html"><span class="nav-num">·</span><span>Заключение</span></a>
+<a href="appendices.html"><span class="nav-num">·</span><span>Приложения</span></a>
+<div class="nav-separator"></div>
+<a href="abstract-plan.html"><span class="nav-num">·</span><span>План автореферата</span></a>
+<a href="bibliography.html"><span class="nav-num">·</span><span>Библиография</span></a>
+        <div class="nav-footer">Обновлено 2026-10-15<br><span>Редакция 1ee10d8f4d</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">ДОКТОРСКАЯ ДИССЕРТАЦИЯ · РАБОЧИЙ ТЕКСТ</div>
+      <h1>Введение</h1>
+      <p class="lead">Научная проблема, цель исследования и границы текущего проекта.</p>
+      <div class="page-meta"><span class="badge">Рабочая редакция</span><span>5 разделов</span><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fintroduction.html%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить страницу ↗</a></div>
+      <div id="relevance" class="manuscript-section">
+<div class="section-topline"><h2 id="relevance-heading">Актуальность</h2><span class="badge draft">Черновик</span></div>
+<p>Трёхмерная реконструкция связывает наблюдения реальной сцены с её
+пространственным представлением. Геометрическая модель описывает форму и
+положение поверхностей, но для редактирования, анализа и повторного
+использования также нужны объекты, их классы, связи и история
+построения.</p>
+<p>Рабочая тема диссертации — методы перехода от изображений и
+геометрических измерений к структурированным моделям объектов и
+пространственных сцен. Последовательность исследования: наблюдения →
+камеры и геометрия → объекты и структура сцены → параметрические модели
+→ проверка по исходным данным.</p>
+<p>Эта электронная версия фиксирует ход работы. Формулировки цели,
+новизны и выводов предварительные; отсутствие численных результатов
+означает, что соответствующий эксперимент ещё предстоит описать или
+выполнить.</p>
+<div class="section-tools"><a href="#relevance">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%90%D0%BA%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%90%D0%BA%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fintroduction.html%23relevance%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="goals" class="manuscript-section">
+<div class="section-topline"><h2 id="goals-heading">Цель и задачи</h2><span class="badge draft">Черновик</span></div>
+<p><strong>Рабочая цель:</strong> разработать и исследовать методы
+построения пространственно согласованных, структурированных и
+редактируемых трёхмерных моделей по визуальным и геометрическим
+данным.</p>
+<ol type="1">
+<li>Уточнить постановки задач, представления результата и пределы
+наблюдаемости.</li>
+<li>Исследовать оценивание поз камер и геометрии при разных режимах
+наблюдения.</li>
+<li>Связать семантическое распознавание с выделением объектов для
+реконструкции.</li>
+<li>Исследовать переход к параметрическим моделям и исполняемым
+CAD-программам.</li>
+<li>Рассмотреть визуализацию как средство представления и проверки
+модели.</li>
+<li>Подготовить общую систему и воспроизводимую сквозную оценку.</li>
+</ol>
+<p>Основной пример для обсуждения — помещение, представленное набором
+изображений. Сценарии с известными позами, RGB-D и готовыми облаками
+точек должны оцениваться раздельно.</p>
+<div class="section-tools"><a href="#goals">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%A6%D0%B5%D0%BB%D1%8C+%D0%B8+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%A6%D0%B5%D0%BB%D1%8C+%D0%B8+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fintroduction.html%23goals%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="novelty" class="manuscript-section">
+<div class="section-topline"><h2 id="novelty-heading">Предполагаемая научная новизна</h2><span class="badge draft">Черновик</span></div>
+<p>Научное ядро предстоит сформулировать через связь этапов
+реконструкции: структурное описание может не только потреблять готовую
+геометрию, но и давать ограничения для её проверки и уточнения.</p>
+<p><strong>Проверяемая гипотеза:</strong> обратная связь от структуры
+сцены и исполняемой модели позволяет улучшать согласованность камер,
+геометрии и объектов. Это направление исследования, а не установленный
+результат текущего черновика.</p>
+<p>Для каждой совместной работы необходимо отдельно зафиксировать личный
+вклад соискателя и результаты соавторов. Методы кандидатской диссертации
+и защищённые результаты учеников дают историческую и методическую
+основу; новая докторская новизна должна быть сформулирована и
+подтверждена отдельно.</p>
+<div class="section-tools"><a href="#novelty">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%9F%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F+%D0%BD%D0%B0%D1%83%D1%87%D0%BD%D0%B0%D1%8F+%D0%BD%D0%BE%D0%B2%D0%B8%D0%B7%D0%BD%D0%B0&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%9F%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D0%B5%D0%BC%D0%B0%D1%8F+%D0%BD%D0%B0%D1%83%D1%87%D0%BD%D0%B0%D1%8F+%D0%BD%D0%BE%D0%B2%D0%B8%D0%B7%D0%BD%D0%B0%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fintroduction.html%23novelty%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="claims" class="manuscript-section">
+<div class="section-topline"><h2 id="claims-heading">Положения для обсуждения</h2><span class="badge draft">Черновик</span></div>
+<p>Ниже приведены заготовки направлений будущих положений на защиту. Их
+окончательные формулировки зависят от реализации и экспериментальных
+доказательств.</p>
+<div class="scrollx"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Направление</th>
+<th>Что требуется подтвердить</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Согласование камер и структуры</td>
+<td>Польза структурных ограничений относительно геометрического базового
+метода</td>
+</tr>
+<tr>
+<td>Объектное понимание сцены</td>
+<td>Качество выделенных наблюдений и их влияние на реконструкцию</td>
+</tr>
+<tr>
+<td>Исполняемая модель объекта</td>
+<td>Геометрическая точность, валидность и возможность
+редактирования</td>
+</tr>
+<tr>
+<td>Сквозной протокол</td>
+<td>Воспроизводимость, разбор отказов и связь локальных метрик с
+конечным результатом</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Открытый вопрос:</strong> какой интегрирующий метод объединит
+эти направления в самостоятельный результат диссертации?</p>
+<div class="section-tools"><a href="#claims">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F+%D0%B4%D0%BB%D1%8F+%D0%BE%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F+%D0%B4%D0%BB%D1%8F+%D0%BE%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fintroduction.html%23claims%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="structure" class="manuscript-section">
+<div class="section-topline"><h2 id="structure-heading">Структура работы</h2><span class="badge draft">Черновик</span></div>
+<p>Работа организована в шесть содержательных глав: постановка и обзор;
+камеры и геометрия; семантическое понимание; структурированная
+реконструкция; фотореалистичная визуализация; программная система и
+сквозная оценка.</p>
+<p>Глава о визуализации пока рассматривается как опциональная. Для
+каждого метода используется единая схема изложения: задача → данные →
+метод → метрики → ограничения → связь с общей системой.</p>
+<p>Текущая последовательность следует документу «Концепция дисера». Два
+раздела с номером 2 в исходной концепции получили последовательные
+номера 2 и 3; последующие главы сдвинуты на единицу. Научное содержание
+этим не изменяется.</p>
+<div class="section-tools"><a href="#structure">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0+%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0+%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fintroduction.html%23structure%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+
+      <div class="prev-next"><a class="next" href="chapters/foundations.html"><small>Следующая страница</small>→ Постановка задач и обзор</a></div>
+      <footer class="page-footer">Рабочая версия исследования · 2026-10-15 · 1ee10d8f4d<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+    <aside class="local-toc" aria-label="Разделы страницы"><div class="nav-label">НА ЭТОЙ СТРАНИЦЕ</div><a href="#relevance">Актуальность</a><a href="#goals">Цель и задачи</a><a href="#novelty">Предполагаемая научная новизна</a><a href="#claims">Положения для обсуждения</a><a href="#structure">Структура работы</a></aside>
+  </div>
+</body>
+</html>

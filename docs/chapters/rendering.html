@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Опциональная глава: внешний вид модели, нейровизуализация и проверка по изображениям.">
+  <meta name="theme-color" content="#0b0026">
+  <title>Глава 5. Фотореалистичная визуализация · Антон Конушин</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/site.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К тексту</a>
+  <header class="topbar">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">К</span><span>Диссертация<span class="brand-sub">Антон Конушин</span></span></a>
+    <div class="edition"><span class="status-dot"></span>Черновик для обсуждения</div>
+    <a class="repo-link" href="https://github.com/antonkonushin/webdiser">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="wrap ">
+    <nav class="book-nav" aria-label="Оглавление диссертации">
+      <details open class="nav-details"><summary>Оглавление <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-label">ЖИВАЯ ВЕРСИЯ · 2026</div>
+        <a href="../index.html">Об этой работе</a>
+<a href="../introduction.html"><span class="nav-num">·</span><span>Введение</span></a>
+<a href="../chapters/foundations.html"><span class="nav-num">01</span><span>Постановка задач и обзор</span></a>
+<a href="../chapters/camera-geometry.html"><span class="nav-num">02</span><span>Позы камер и разреженная реконструкция</span></a>
+<a href="../chapters/scene-understanding.html"><span class="nav-num">03</span><span>Семантическое понимание сцен</span></a>
+<a href="../chapters/structured-reconstruction.html"><span class="nav-num">04</span><span>Структурированная реконструкция сцен и объектов</span></a>
+<a href="../chapters/rendering.html" aria-current="page"><span class="nav-num">05</span><span>Фотореалистичная визуализация</span></a>
+<a href="../chapters/system-evaluation.html"><span class="nav-num">06</span><span>Программная система и сквозная оценка</span></a>
+<div class="nav-separator"></div>
+<a href="../conclusion.html"><span class="nav-num">·</span><span>Заключение</span></a>
+<a href="../appendices.html"><span class="nav-num">·</span><span>Приложения</span></a>
+<div class="nav-separator"></div>
+<a href="../abstract-plan.html"><span class="nav-num">·</span><span>План автореферата</span></a>
+<a href="../bibliography.html"><span class="nav-num">·</span><span>Библиография</span></a>
+        <div class="nav-footer">Обновлено 2026-10-15<br><span>Редакция 1ee10d8f4d</span></div>
+      </details>
+    </nav>
+    <main id="main" tabindex="-1">
+      <div class="course">ДОКТОРСКАЯ ДИССЕРТАЦИЯ · РАБОЧИЙ ТЕКСТ</div>
+      <h1>Глава 5. Фотореалистичная визуализация</h1>
+      <p class="lead">Опциональная глава: внешний вид модели, нейровизуализация и проверка по изображениям.</p>
+      <div class="page-meta"><span class="badge">Рабочая редакция</span><span>3 раздела</span><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+5.+%D0%A4%D0%BE%D1%82%D0%BE%D1%80%D0%B5%D0%B0%D0%BB%D0%B8%D1%81%D1%82%D0%B8%D1%87%D0%BD%D0%B0%D1%8F+%D0%B2%D0%B8%D0%B7%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+%D0%93%D0%BB%D0%B0%D0%B2%D0%B0+5.+%D0%A4%D0%BE%D1%82%D0%BE%D1%80%D0%B5%D0%B0%D0%BB%D0%B8%D1%81%D1%82%D0%B8%D1%87%D0%BD%D0%B0%D1%8F+%D0%B2%D0%B8%D0%B7%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Frendering.html%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить страницу ↗</a></div>
+      <div id="rendering-task" class="manuscript-section">
+<div class="section-topline"><h2 id="rendering-task-heading">5.1. Роль визуализации в работе</h2><span class="badge draft">Черновик</span></div>
+<p>Геометрическая и семантическая корректность не обеспечивают
+правдоподобный внешний вид. Визуализация нужна для представления модели
+и для сравнения с исходными изображениями.</p>
+<p>В текущей концепции глава опциональная и ограничена RGB-камерами.
+Моделирование остальных сенсоров остаётся возможным развитием и не
+включается в заявленные результаты.</p>
+<p>Нужно различать восстановление наблюдаемого внешнего вида и генерацию
+правдоподобного изображения, которое может не соответствовать реальной
+геометрии.</p>
+<div class="section-tools"><a href="#rendering-task">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+5.1.+%D0%A0%D0%BE%D0%BB%D1%8C+%D0%B2%D0%B8%D0%B7%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8+%D0%B2+%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+5.1.+%D0%A0%D0%BE%D0%BB%D1%8C+%D0%B2%D0%B8%D0%B7%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8+%D0%B2+%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Frendering.html%23rendering-task%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="neural-rendering" class="manuscript-section">
+<div class="section-topline"><h2 id="neural-rendering-heading">5.2. Нейрореконструкция и генеративные методы</h2><span class="badge draft">Черновик</span></div>
+<p>В концепции предусмотрено описание XSIM и направления
+нейровизуализации по реконструированным моделям. Переводная или новая
+журнальная работа указана как план; библиографические поля для
+неподтверждённой версии не заполняются.</p>
+<p>Предлагается сравнивать методы по исходным видам и новым ракурсам,
+отдельно учитывая доступ к калибровке и исходной геометрии. Генеративное
+дополнение следует обозначать как гипотезу о ненаблюдаемой части
+сцены.</p>
+<p><strong>Доработать:</strong> точную постановку XSIM, список
+источников, визуальные примеры и соответствующий экспериментальный
+протокол.</p>
+<div class="section-tools"><a href="#neural-rendering">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+5.2.+%D0%9D%D0%B5%D0%B9%D1%80%D0%BE%D1%80%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F+%D0%B8+%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B5+%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+5.2.+%D0%9D%D0%B5%D0%B9%D1%80%D0%BE%D1%80%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F+%D0%B8+%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B5+%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Frendering.html%23neural-rendering%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+<div id="rendering-evaluation" class="manuscript-section">
+<div class="section-topline"><h2 id="rendering-evaluation-heading">5.3. Проверка и границы выводов</h2><span class="badge draft">Черновик</span></div>
+<p>Качество изображения можно оценивать фотометрическими и перцептивными
+метриками, но оно не заменяет измерение геометрии. Дополнительно
+требуется анализ согласованности между видами и устойчивости к изменению
+ракурса.</p>
+<p>Все сравниваемые варианты должны использовать одинаковые тестовые
+камеры. Обучающие виды и виды оценки разделяются заранее; для
+генеративных методов фиксируются случайность и бюджет.</p>
+<p><strong>Открытый вопрос:</strong> даёт ли визуализация
+самостоятельный научный результат или служит вспомогательным разделом
+сквозной проверки? Решение о сохранении главы будет принято по мере
+готовности исследований.</p>
+<div class="section-tools"><a href="#rendering-evaluation">§ Ссылка на раздел</a><a href="https://github.com/antonkonushin/webdiser/issues/new?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%3A+5.3.+%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0+%D0%B8+%D0%B3%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D1%8B+%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D0%BE%D0%B2&amp;body=%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%3A+5.3.+%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0+%D0%B8+%D0%B3%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D1%8B+%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D0%BE%D0%B2%0A%D0%90%D0%B4%D1%80%D0%B5%D1%81%3A+https%3A%2F%2Fantonkonushin.github.io%2Fwebdiser%2Fchapters%2Frendering.html%23rendering-evaluation%0A%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D1%8F%3A+1ee10d8f4d%0A%0A%D0%97%D0%B0%D0%BC%D0%B5%D1%87%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B8%D0%BB%D0%B8+%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%3A%0A">Обсудить раздел ↗</a></div>
+</div>
+
+      <div class="prev-next"><a class="prev" href="structured-reconstruction.html"><small>Предыдущая страница</small>← Структурированная реконструкция сцен и объектов</a><a class="next" href="system-evaluation.html"><small>Следующая страница</small>→ Программная система и сквозная оценка</a></div>
+      <footer class="page-footer">Рабочая версия исследования · 2026-10-15 · 1ee10d8f4d<br>Формулировки и результаты уточняются по мере подготовки диссертации.</footer>
+    </main>
+    <aside class="local-toc" aria-label="Разделы страницы"><div class="nav-label">НА ЭТОЙ СТРАНИЦЕ</div><a href="#rendering-task">5.1. Роль визуализации в работе</a><a href="#neural-rendering">5.2. Нейрореконструкция и генеративные методы</a><a href="#rendering-evaluation">5.3. Проверка и границы выводов</a></aside>
+  </div>
+</body>
+</html>
